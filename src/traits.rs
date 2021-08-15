@@ -159,7 +159,7 @@ mod interpolate {
     impl Interpolate for Mat3 {
         fn interpolate(&self, other: &Self, amount: f32) -> Self {
             Mat3::from_quat(
-                Quat::from_rotation_mat3(self).lerp(Quat::from_rotation_mat3(other), amount),
+                Quat::from_mat3(self).lerp(Quat::from_mat3(other), amount),
             )
         }
     }
