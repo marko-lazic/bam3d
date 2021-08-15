@@ -45,14 +45,14 @@ impl Cuboid {
 
     fn generate_corners(half_dim: &Vec3) -> [Vec3; 8] {
         [
-            Vec3::new(half_dim.x(), half_dim.y(), half_dim.z()),
-            Vec3::new(-half_dim.x(), half_dim.y(), half_dim.z()),
-            Vec3::new(-half_dim.x(), -half_dim.y(), half_dim.z()),
-            Vec3::new(half_dim.x(), -half_dim.y(), half_dim.z()),
-            Vec3::new(half_dim.x(), half_dim.y(), -half_dim.z()),
-            Vec3::new(-half_dim.x(), half_dim.y(), -half_dim.z()),
-            Vec3::new(-half_dim.x(), -half_dim.y(), -half_dim.z()),
-            Vec3::new(half_dim.x(), -half_dim.y(), -half_dim.z()),
+            Vec3::new(half_dim.x, half_dim.y, half_dim.z),
+            Vec3::new(-half_dim.x, half_dim.y, half_dim.z),
+            Vec3::new(-half_dim.x, -half_dim.y, half_dim.z),
+            Vec3::new(half_dim.x, -half_dim.y, half_dim.z),
+            Vec3::new(half_dim.x, half_dim.y, -half_dim.z),
+            Vec3::new(-half_dim.x, half_dim.y, -half_dim.z),
+            Vec3::new(-half_dim.x, -half_dim.y, -half_dim.z),
+            Vec3::new(half_dim.x, -half_dim.y, -half_dim.z),
         ]
     }
 }
@@ -74,9 +74,9 @@ impl ComputeBound<Aabb3> for Cuboid {
 
 impl ComputeBound<Sphere> for Cuboid {
     fn compute_bound(&self) -> Sphere {
-        let max = self.half_dim.x().max(self.half_dim.y()).max(self.half_dim.z());
+        let max = self.half_dim.x.max(self.half_dim.y).max(self.half_dim.z);
         Sphere {
-            center: Vec3::zero(),
+            center: Vec3::ZERO,
             radius: max,
         }
     }
@@ -121,12 +121,12 @@ impl Cube {
 
     /// Get the dimension of the cube
     pub fn dim(&self) -> f32 {
-        self.cuboid.dim.x()
+        self.cuboid.dim.x
     }
 
     /// Get the half dimension of the cube
     pub fn half_dim(&self) -> f32 {
-        self.cuboid.half_dim.x()
+        self.cuboid.half_dim.x
     }
 }
 
@@ -221,9 +221,9 @@ mod tests {
         let ray = Ray::new(Vec3::new(10., 0., 0.), Vec3::new(-1., 0., 0.));
         let t = transform(0., 0., 0., 0.3);
         let p = cuboid.intersection_transformed(&ray, &t).unwrap();
-        assert!((p.x() - 5.000068).abs() < std::f32::EPSILON);
-        assert!((p.y() - 0.).abs() < std::f32::EPSILON);
-        assert!((p.z() - 0.).abs() < std::f32::EPSILON);
+        assert!((p.x - 5.000068).abs() < std::f32::EPSILON);
+        assert!((p.y - 0.).abs() < std::f32::EPSILON);
+        assert!((p.z - 0.).abs() < std::f32::EPSILON);
     }
 
     // util

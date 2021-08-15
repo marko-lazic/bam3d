@@ -24,11 +24,11 @@ pub trait MinMax {
 
 impl MinMax for Vec3 {
     fn min(a: Vec3, b:Vec3) -> Vec3 {
-        Vec3::new(a.x().min(b.x()), a.y().min(b.y()), a.z().min(b.z()))
+        Vec3::new(a.x.min(b.x), a.y.min(b.y), a.z.min(b.z))
     }
 
     fn max(a: Vec3, b: Vec3) -> Vec3 {
-        Vec3::new(a.x().max(b.x()), a.y().max(b.y()), a.z().max(b.z()))
+        Vec3::new(a.x.max(b.x), a.y.max(b.y), a.z.max(b.z))
     }
 }
 
@@ -40,7 +40,7 @@ pub trait Aabb: Sized {
 
     /// Create a new empty AABB
     fn zero() -> Self {
-        let p = Vec3::zero();
+        let p = Vec3::ZERO;
         Aabb::new(p, p)
     }
 
@@ -60,7 +60,7 @@ pub trait Aabb: Sized {
     #[inline]
     fn volume(&self) -> f32 {
         let dims = self.dim();
-        dims.x() * dims.y() * dims.z()
+        dims.x * dims.y * dims.z
     }
 
     /// Return the center point of this AABB.

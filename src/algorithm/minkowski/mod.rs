@@ -23,9 +23,9 @@ impl SupportPoint {
     /// Create a new support point at origin
     pub fn new() -> Self {
         Self {
-            v: Vec3::zero(),
-            sup_a: Vec3::zero(),
-            sup_b: Vec3::zero(),
+            v: Vec3::ZERO,
+            sup_a: Vec3::ZERO,
+            sup_b: Vec3::ZERO,
         }
     }
 

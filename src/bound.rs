@@ -66,9 +66,9 @@ impl PlaneBound for Vec3 {
             Vec4::new(0.0, 0.0, 0.0, 1.0)
         );
         match (
-            p.x_axis().abs().partial_cmp(&p.w_axis()),
-            p.y_axis().abs().partial_cmp(&p.w_axis()),
-            p.z_axis().abs().partial_cmp(&p.w_axis()),
+            p.x_axis.abs().partial_cmp(&p.w_axis),
+            p.y_axis.abs().partial_cmp(&p.w_axis),
+            p.z_axis.abs().partial_cmp(&p.w_axis),
         ) {
             (Some(Less), Some(Less), Some(Less)) => Relation::In,
             (Some(Greater), _, _) | (_, Some(Greater), _) | (_, _, Some(Greater)) => Relation::Out,

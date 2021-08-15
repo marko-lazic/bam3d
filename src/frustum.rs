@@ -47,27 +47,27 @@ impl Frustum {
         // to get rows instead of columns
         let mat = &matrix.transpose();
         Some(Frustum::new(
-            match Plane::from_vector4_alt(mat.w_axis() + mat.x_axis()).normalize() {
+            match Plane::from_vector4_alt(mat.w_axis + mat.x_axis).normalize() {
                 Some(p) => p,
                 None => return None,
             },
-            match Plane::from_vector4_alt(mat.w_axis() - mat.x_axis()).normalize() {
+            match Plane::from_vector4_alt(mat.w_axis - mat.x_axis).normalize() {
                 Some(p) => p,
                 None => return None,
             },
-            match Plane::from_vector4_alt(mat.w_axis() + mat.y_axis()).normalize() {
+            match Plane::from_vector4_alt(mat.w_axis + mat.y_axis).normalize() {
                 Some(p) => p,
                 None => return None,
             },
-            match Plane::from_vector4_alt(mat.w_axis() - mat.y_axis()).normalize() {
+            match Plane::from_vector4_alt(mat.w_axis - mat.y_axis).normalize() {
                 Some(p) => p,
                 None => return None,
             },
-            match Plane::from_vector4_alt(mat.w_axis() + mat.x_axis()).normalize() {
+            match Plane::from_vector4_alt(mat.w_axis + mat.x_axis).normalize() {
                 Some(p) => p,
                 None => return None,
             },
-            match Plane::from_vector4_alt(mat.w_axis() - mat.x_axis()).normalize() {
+            match Plane::from_vector4_alt(mat.w_axis - mat.x_axis).normalize() {
                 Some(p) => p,
                 None => return None,
             },

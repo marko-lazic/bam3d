@@ -74,7 +74,7 @@ impl Plane {
         // find the normal vector that is perpendicular to v1 and v2
         let normal = v0.cross(v1);
 
-        if normal.eq(&Vec3::zero()) {
+        if normal.eq(&Vec3::ZERO) {
             None
         } else {
             // compute the normal and the distance to the plane
@@ -93,7 +93,7 @@ impl Plane {
 
     /// Normalize a plane.
     pub fn normalize(&self) -> Option<Plane> {
-        if self.n.eq(&Vec3::zero()) {
+        if self.n.eq(&Vec3::ZERO) {
             None
         } else {
             // denom of denom is magnitude equation from cgmath
@@ -109,7 +109,7 @@ impl fmt::Debug for Plane {
         write!(
             f,
             "{:?}x + {:?}y + {:?}z - {:?} = 0",
-            self.n.x(), self.n.y(), self.n.z(), self.d
+            self.n.x, self.n.y, self.n.z, self.d
         )
     }
 }

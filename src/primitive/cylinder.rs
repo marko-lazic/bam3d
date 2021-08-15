@@ -39,23 +39,23 @@ impl Primitive for Cylinder {
         let direction = transform.inverse().transform_vector3(*direction);
 
         let mut result = direction;
-        let negative = result.y().is_sign_negative();
+        let negative = result.y.is_sign_negative();
 
-        result.set_y(0.);
-        if (result.dot(result) - 0.).abs() < std::f32::EPSILON {
+        result.y = 0.;
+        if (result.dot(result) - 0.).abs() < f32::EPSILON {
             result = Vec3::splat(0.);
         } else {
             result = result.normalize();
-            if (result.y() - 0.).abs() < std::f32::EPSILON && (result.x() - 0.).abs() < std::f32::EPSILON && (result.z() - 0.).abs() < std::f32::EPSILON {
+            if (result.y - 0.).abs() < f32::EPSILON && (result.x - 0.).abs() < f32::EPSILON && (result.z - 0.).abs() < f32::EPSILON {
                 result = Vec3::splat(0.); // cancel out any inconsistencies
             } else {
                 result *= self.radius;
             }
         }
         if negative {
-            result.set_y(-self.half_height);
+            result.y = -self.half_height;
         } else {
-            result.set_y(self.half_height);
+            result.y = self.half_height;
         }
         transform.transform_point3(result)
     }
@@ -73,7 +73,7 @@ impl ComputeBound<Aabb3> for Cylinder {
 impl ComputeBound<Sphere> for Cylinder {
     fn compute_bound(&self) -> Sphere {
         Sphere {
-            center: Vec3::zero(),
+            center: Vec3::ZERO,
             radius: ((self.radius * self.radius) + (self.half_height * self.half_height)).sqrt(),
         }
     }
@@ -81,13 +81,13 @@ impl ComputeBound<Sphere> for Cylinder {
 
 impl Discrete<Ray> for Cylinder {
     fn intersects(&self, r: &Ray) -> bool {
-        if (r.direction.x() - 0.).abs() < std::f32::EPSILON && (r.direction.z() - 0.).abs() < std::f32::EPSILON {
-            if (r.direction.y() - 0.).abs() < std::f32::EPSILON {
+        if (r.direction.x - 0.).abs() < f32::EPSILON && (r.direction.z - 0.).abs() < f32::EPSILON {
+            if (r.direction.y - 0.).abs() < f32::EPSILON {
                 return false;
             }
 
-            return (r.origin.y() >= -self.half_height && r.direction.y() <= 0.)
-                || (r.origin.y() <= self.half_height && r.direction.y() >= 0.);
+            return (r.origin.y >= -self.half_height && r.direction.y <= 0.)
+                || (r.origin.y <= self.half_height && r.direction.y >= 0.);
         }
 
         let (t1, t2) = match cylinder_ray_quadratic_solve(r, self.radius) {
@@ -108,24 +108,24 @@ impl Discrete<Ray> for Cylinder {
         };
 
         let pc = r.origin + r.direction * t;
-        if pc.y() <= self.half_height && pc.y() >= -self.half_height {
+        if pc.y <= self.half_height && pc.y >= -self.half_height {
             return true;
         }
 
-        let n = -Vec3::unit_y();
+        let n = -Vec3::Y;
         let tp = -(self.half_height + r.origin.dot(n)) / r.direction.dot(n);
         if tp >= 0. {
             let p = r.origin + r.direction * tp;
-            if p.x() * p.x() + p.z() * p.z() < self.radius * self.radius {
+            if p.x * p.x + p.z * p.z < self.radius * self.radius {
                 return true;
             }
         }
 
-        let n = Vec3::unit_y();
+        let n = Vec3::Y;
         let tb = -(-self.half_height + r.origin.dot(n)) / r.direction.dot(n);
         if tb >= 0. {
             let p = r.origin + r.direction * tb;
-            if p.x() * p.x() + p.z() * p.z() < self.radius * self.radius {
+            if p.x * p.x + p.z * p.z < self.radius * self.radius {
                 return true;
             }
         }
@@ -138,21 +138,21 @@ impl Continuous<Ray> for Cylinder {
     type Result = Vec3;
 
     fn intersection(&self, r: &Ray) -> Option<Vec3> {
-        if (r.direction.x() - 0.).abs() < std::f32::EPSILON && (r.direction.z() - 0.).abs() < std::f32::EPSILON {
-            if (r.direction.y() - 0.).abs() < std::f32::EPSILON {
+        if (r.direction.x - 0.).abs() < f32::EPSILON && (r.direction.z - 0.).abs() < f32::EPSILON {
+            if (r.direction.y - 0.).abs() < f32::EPSILON {
                 return None;
             }
 
-            if r.origin.y() >= self.half_height && r.direction.y() < 0. {
+            if r.origin.y >= self.half_height && r.direction.y < 0. {
                 return Some(Vec3::new(0., self.half_height, 0.));
             }
-            if r.origin.y() >= -self.half_height && r.direction.y() < 0. {
+            if r.origin.y >= -self.half_height && r.direction.y < 0. {
                 return Some(Vec3::new(0., -self.half_height, 0.));
             }
-            if r.origin.y() <= -self.half_height && r.direction.y() > 0. {
+            if r.origin.y <= -self.half_height && r.direction.y > 0. {
                 return Some(Vec3::new(0., -self.half_height, 0.));
             }
-            if r.origin.y() <= self.half_height && r.direction.y() > 0. {
+            if r.origin.y <= self.half_height && r.direction.y > 0. {
                 return Some(Vec3::new(0., self.half_height, 0.));
             }
 
@@ -176,26 +176,26 @@ impl Continuous<Ray> for Cylinder {
             t1.min(t2)
         };
 
-        let n = -Vec3::unit_y();
+        let n = -Vec3::Y;
         let tp = -(self.half_height + r.origin.dot(n)) / r.direction.dot(n);
         if tp >= 0. && tp < t {
             let p = r.origin + r.direction * tp;
-            if p.x() * p.x() + p.z() * p.z() < self.radius * self.radius {
+            if p.x * p.x + p.z * p.z < self.radius * self.radius {
                 t = tp;
             }
         }
 
-        let n = Vec3::unit_y();
+        let n = Vec3::Y;
         let tb = -(-self.half_height + r.origin.dot(n)) / r.direction.dot(n);
         if tb >= 0. && tb < t {
             let p = r.origin + r.direction * tb;
-            if p.x() * p.x() + p.z() * p.z() < self.radius * self.radius {
+            if p.x * p.x + p.z * p.z < self.radius * self.radius {
                 t = tb;
             }
         }
 
         let pc = r.origin + r.direction * t;
-        if (pc.y() > self.half_height) || (pc.y() < -self.half_height) {
+        if (pc.y > self.half_height) || (pc.y < -self.half_height) {
             None
         } else {
             Some(pc)

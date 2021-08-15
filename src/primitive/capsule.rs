@@ -42,8 +42,8 @@ impl Primitive for Capsule {
         //todo
         let direction = transform.inverse().transform_vector3(*direction);
 
-        let mut result = Vec3::zero();
-        result.set_y(direction.y().signum() * self.half_height);
+        let mut result = Vec3::ZERO;
+        result.y = direction.y.signum() * self.half_height;
         transform.transform_point3(result + direction * (self.radius / (direction.dot(direction)).sqrt()))
     }
 }
@@ -60,7 +60,7 @@ impl ComputeBound<Aabb3> for Capsule {
 impl ComputeBound<Sphere> for Capsule {
     fn compute_bound(&self) -> Sphere {
         Sphere {
-            center: Vec3::zero(),
+            center: Vec3::ZERO,
             radius: self.half_height + self.radius,
         }
     }
@@ -86,12 +86,12 @@ impl Discrete<Ray> for Capsule {
         };
 
         let pc = r.origin + r.direction * t;
-        if pc.y() <= self.half_height && pc.y() >= -self.half_height {
+        if pc.y <= self.half_height && pc.y >= -self.half_height {
             return true;
         }
 
         // top sphere
-        let l = Vec3::new(-r.origin.x(), self.half_height - r.origin.y(), -r.origin.z());
+        let l = Vec3::new(-r.origin.x, self.half_height - r.origin.y, -r.origin.z);
         let tca = l.dot(r.direction);
         if tca > 0. {
             let d2 = l.dot(l) - tca * tca;
@@ -101,7 +101,7 @@ impl Discrete<Ray> for Capsule {
         }
 
         // bottom sphere
-        let l = Vec3::new(-r.origin.x(), -self.half_height - r.origin.y(), -r.origin.z());
+        let l = Vec3::new(-r.origin.x, -self.half_height - r.origin.y, -r.origin.z);
         let tca = l.dot(r.direction);
         if tca > 0. {
             let d2 = l.dot(l) - tca * tca;
@@ -136,7 +136,7 @@ impl Continuous<Ray> for Capsule {
         };
 
         // top sphere
-        let l = Vec3::new(-r.origin.x(), self.half_height - r.origin.y(), -r.origin.z());
+        let l = Vec3::new(-r.origin.x, self.half_height - r.origin.y, -r.origin.z);
         let tca = l.dot(r.direction);
         if tca > 0. {
             let d2 = l.dot(l) - tca * tca;
@@ -150,7 +150,7 @@ impl Continuous<Ray> for Capsule {
         }
 
         // bottom sphere
-        let l = Vec3::new(-r.origin.x(), -self.half_height - r.origin.y(), -r.origin.z());
+        let l = Vec3::new(-r.origin.x, -self.half_height - r.origin.y, -r.origin.z);
         let tca = l.dot(r.direction);
         if tca > 0. {
             let d2 = l.dot(l) - tca * tca;
@@ -169,7 +169,7 @@ impl Continuous<Ray> for Capsule {
 
         let pc = r.origin + r.direction * t;
         let full_half_height = self.half_height + self.radius;
-        if (pc.y() > full_half_height) || (pc.y() < -full_half_height) {
+        if (pc.y > full_half_height) || (pc.y < -full_half_height) {
             None
         } else {
             Some(pc)

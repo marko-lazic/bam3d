@@ -177,15 +177,15 @@ mod variance {
 
         fn new() -> Self {
             Self {
-                csum: Vec3::zero(),
-                csumsq: Vec3::zero(),
+                csum: Vec3::ZERO,
+                csumsq: Vec3::ZERO,
                 m: marker::PhantomData,
             }
         }
 
         fn clear(&mut self) {
-            self.csum = Vec3::zero();
-            self.csumsq = Vec3::zero();
+            self.csum = Vec3::ZERO;
+            self.csumsq = Vec3::ZERO;
         }
 
         #[inline]

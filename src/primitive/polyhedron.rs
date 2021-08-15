@@ -137,7 +137,7 @@ impl ConvexPolyhedron {
             .iter()
             .map(|v| (v.position, v.position.dot(direction)))
             .fold(
-                (Vec3::zero(), f32::NEG_INFINITY),
+                (Vec3::ZERO, f32::NEG_INFINITY),
                 |(max_p, max_dot), (v, dot)| {
                     if dot > max_dot {
                         (v, dot)
@@ -363,7 +363,7 @@ impl ComputeBound<Aabb3> for ConvexPolyhedron {
 impl ComputeBound<Sphere> for ConvexPolyhedron {
     fn compute_bound(&self) -> Sphere {
         Sphere {
-            center: Vec3::zero(),
+            center: Vec3::ZERO,
             radius: self.max_extent,
         }
     }
@@ -634,9 +634,9 @@ mod tests {
         let polytope = ConvexPolyhedron::new_with_faces(vertices, faces);
         let ray = Ray::new(Vec3::new(0.25, 5., 0.25), Vec3::new(0., -1., 0.));
         let p = polytope.intersection(&ray).unwrap();
-        assert!((p.x() - 0.250_000_18).abs() < std::f32::EPSILON);
-        assert!((p.y() - 0.499_999_7).abs() < std::f32::EPSILON);
-        assert!((p.z() - 0.250_000_18).abs() < std::f32::EPSILON);
+        assert!((p.x - 0.250_000_18).abs() < std::f32::EPSILON);
+        assert!((p.y - 0.499_999_7).abs() < std::f32::EPSILON);
+        assert!((p.z - 0.250_000_18).abs() < std::f32::EPSILON);
         let ray = Ray::new(Vec3::new(0.5, 5., 0.5), Vec3::new(0., 1., 0.));
         assert_eq!(None, polytope.intersection(&ray));
         let ray = Ray::new(Vec3::new(0., 5., 0.), Vec3::new(0., -1., 0.));
@@ -656,22 +656,22 @@ mod tests {
         let t = transform(0., 0., 0., 0.);
         let ray = Ray::new(Vec3::new(0.25, 5., 0.25), Vec3::new(0., -1., 0.));
         let p = polytope.intersection_transformed(&ray, &t).unwrap();
-        assert!((p.x() - 0.250_000_18).abs() < std::f32::EPSILON);
-        assert!((p.y() - 0.499_999_7).abs() < std::f32::EPSILON);
-        assert!((p.z() - 0.250_000_18).abs() < std::f32::EPSILON);
+        assert!((p.x - 0.250_000_18).abs() < std::f32::EPSILON);
+        assert!((p.y - 0.499_999_7).abs() < std::f32::EPSILON);
+        assert!((p.z - 0.250_000_18).abs() < std::f32::EPSILON);
         let ray = Ray::new(Vec3::new(0.5, 5., 0.5), Vec3::new(0., 1., 0.));
         assert_eq!(None, polytope.intersection_transformed(&ray, &t));
         let t = transform(0., 1., 0., 0.);
         let ray = Ray::new(Vec3::new(0.25, 5., 0.25), Vec3::new(0., -1., 0.));
         let p = polytope.intersection_transformed(&ray, &t).unwrap();
-        assert!((p.x() - 0.250_000_18).abs() < std::f32::EPSILON);
-        assert!((p.y() - 1.499_999_8).abs() < std::f32::EPSILON);
-        assert!((p.z() - 0.250_000_18).abs() < std::f32::EPSILON);
+        assert!((p.x - 0.250_000_18).abs() < std::f32::EPSILON);
+        assert!((p.y - 1.499_999_8).abs() < std::f32::EPSILON);
+        assert!((p.z - 0.250_000_18).abs() < std::f32::EPSILON);
         let t = transform(0., 0., 0., 0.3);
         let p = polytope.intersection_transformed(&ray, &t).unwrap();
-        assert!((p.x() - 0.2500002).abs() < std::f32::EPSILON);
-        assert!((p.y() - 0.498_707_7).abs() < std::f32::EPSILON);
-        assert!((p.z() - 0.250_000_12).abs() < std::f32::EPSILON);
+        assert!((p.x - 0.2500002).abs() < std::f32::EPSILON);
+        assert!((p.y - 0.498_707_7).abs() < std::f32::EPSILON);
+        assert!((p.z - 0.250_000_12).abs() < std::f32::EPSILON);
     }
 
     #[test]

@@ -45,10 +45,10 @@ impl Quad {
 
     fn generate_corners(half_dim: &Vec2) -> [Vec3; 4] {
         [
-            Vec3::new(half_dim.x(), half_dim.y(), 0.),
-            Vec3::new(-half_dim.x(), half_dim.y(), 0.),
-            Vec3::new(-half_dim.x(), -half_dim.y(), 0.),
-            Vec3::new(half_dim.x(), -half_dim.y(), 0.),
+            Vec3::new(half_dim.x, half_dim.y, 0.),
+            Vec3::new(-half_dim.x, half_dim.y, 0.),
+            Vec3::new(-half_dim.x, -half_dim.y, 0.),
+            Vec3::new(half_dim.x, -half_dim.y, 0.),
         ]
     }
 }
@@ -62,8 +62,8 @@ impl Primitive for Quad {
 impl ComputeBound<Aabb3> for Quad {
     fn compute_bound(&self) -> Aabb3 {
         Aabb3::new(
-            Vec3::new(-self.half_dim.x(), -self.half_dim.y(), 0.),
-            Vec3::new(self.half_dim.x(), self.half_dim.y(), 0.),
+            Vec3::new(-self.half_dim.x, -self.half_dim.y, 0.),
+            Vec3::new(self.half_dim.x, self.half_dim.y, 0.),
         )
     }
 }
@@ -71,8 +71,8 @@ impl ComputeBound<Aabb3> for Quad {
 impl ComputeBound<Sphere> for Quad {
     fn compute_bound(&self) -> Sphere {
         Sphere {
-            center: Vec3::zero(),
-            radius: self.half_dim.x().max(self.half_dim.y()),
+            center: Vec3::ZERO,
+            radius: self.half_dim.x.max(self.half_dim.y),
         }
     }
 }

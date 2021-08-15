@@ -36,7 +36,7 @@ impl ComputeBound<Aabb3> for Sphere {
 impl ComputeBound<crate::volume::Sphere> for Sphere {
     fn compute_bound(&self) -> crate::volume::Sphere {
         crate::volume::Sphere {
-            center: Vec3::zero(),
+            center: Vec3::ZERO,
             radius: self.radius,
         }
     }
@@ -45,7 +45,7 @@ impl ComputeBound<crate::volume::Sphere> for Sphere {
 impl Discrete<Ray> for Sphere {
     fn intersects(&self, r: &Ray) -> bool {
         let s = self;
-        let l = Vec3::new(-r.origin.x(), -r.origin.y(), -r.origin.z());
+        let l = Vec3::new(-r.origin.x, -r.origin.y, -r.origin.z);
         let tca = l.dot(r.direction);
         if tca < 0. {
             return false;
@@ -61,7 +61,7 @@ impl Continuous<Ray> for Sphere {
     fn intersection(&self, r: &Ray) -> Option<Vec3> {
         let s = self;
 
-        let l = Vec3::new(-r.origin.x(), -r.origin.y(), -r.origin.z());
+        let l = Vec3::new(-r.origin.x, -r.origin.y, -r.origin.z);
         let tca = l.dot(r.direction);
         if tca < 0. {
             return None;
@@ -187,9 +187,9 @@ mod tests {
         let direction = Vec3::new(dx, dy, dz);
         let t = transform(0., 0., 0., rot);
         let point = sphere.support_point(&direction, &t);
-        assert_eq!(px, point.x());
-        assert_eq!(py, point.y());
-        assert_eq!(pz, point.z());
+        assert_eq!(px, point.x);
+        assert_eq!(py, point.y);
+        assert_eq!(pz, point.z);
     }
 
     // util

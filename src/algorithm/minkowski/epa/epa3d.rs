@@ -313,9 +313,9 @@ mod tests {
         d: f32,
     ) {
         assert_eq!([a, b, c], face.vertices);
-        assert_eq!(nx, face.normal.x());
-        assert_eq!(ny, face.normal.y());
-        assert_eq!(nz, face.normal.z());
+        assert_eq!(nx, face.normal.x);
+        assert_eq!(ny, face.normal.y);
+        assert_eq!(nz, face.normal.z);
         assert_eq!(d, face.distance);
     }
 

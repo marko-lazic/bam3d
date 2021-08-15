@@ -53,7 +53,7 @@ where
 impl Discrete<Ray> for Particle {
     /// Ray needs to be in particle object space
     fn intersects(&self, ray: &Ray) -> bool {
-        Vec3::zero().intersects(ray)
+        Vec3::ZERO.intersects(ray)
     }
 }
 
@@ -62,7 +62,7 @@ impl Continuous<Ray> for Particle {
 
     /// Ray needs to be in particle object space
     fn intersection(&self, ray: &Ray) -> Option<Vec3> {
-        Vec3::zero().intersection(ray)
+        Vec3::ZERO.intersection(ray)
     }
 }
 

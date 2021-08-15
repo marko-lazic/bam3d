@@ -79,7 +79,7 @@ where
         Self::new(
             value,
             bound,
-            Vec3::zero(),
+            Vec3::ZERO,
         )
     }
 }

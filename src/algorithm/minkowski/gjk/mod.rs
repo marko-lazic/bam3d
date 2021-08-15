@@ -82,10 +82,10 @@ impl GJK {
         PL: Primitive,
         PR: Primitive,
     {
-        let left_pos = left_transform.transform_point3(Vec3::zero());
-        let right_pos = right_transform.transform_point3(Vec3::zero());
+        let left_pos = left_transform.transform_point3(Vec3::ZERO);
+        let right_pos = right_transform.transform_point3(Vec3::ZERO);
         let mut d = right_pos - left_pos;
-        if d.cmpeq(Vec3::zero()).all() {
+        if d.cmpeq(Vec3::ZERO).all() {
             d = Vec3::splat(1.);
         }
         let a = SupportPoint::from_minkowski(left, left_transform, right, right_transform, &d);
@@ -139,16 +139,16 @@ impl GJK {
         PR: Primitive,
     {
         // build the ray, A.velocity - B.velocity is the ray direction
-        let left_lin_vel = left_transform.end.transform_point3(Vec3::zero())
-            - left_transform.start.transform_point3(Vec3::zero());
-        let right_lin_vel = right_transform.end.transform_point3(Vec3::zero())
-            - right_transform.start.transform_point3(Vec3::zero());
+        let left_lin_vel = left_transform.end.transform_point3(Vec3::ZERO)
+            - left_transform.start.transform_point3(Vec3::ZERO);
+        let right_lin_vel = right_transform.end.transform_point3(Vec3::ZERO)
+            - right_transform.start.transform_point3(Vec3::ZERO);
         let ray = right_lin_vel - left_lin_vel;
 
         // initialize time of impact
         let mut lambda = 0.;
-        let mut normal = Vec3::zero();
-        let mut ray_origin = Vec3::zero();
+        let mut normal = Vec3::ZERO;
+        let mut ray_origin = Vec3::ZERO;
 
         // build simplex and get an initial support point to bootstrap the algorithm
         let mut simplex = Simplex::new();
@@ -240,13 +240,13 @@ impl GJK {
         PL: Primitive,
         PR: Primitive,
     {
-        let right_pos = right_transform.transform_point3(Vec3::zero());
-        let left_pos = left_transform.transform_point3(Vec3::zero());
+        let right_pos = right_transform.transform_point3(Vec3::ZERO);
+        let left_pos = left_transform.transform_point3(Vec3::ZERO);
         let mut simplex = Simplex::new();
         let mut d = right_pos - left_pos;
-        if (d.x() - 0.).abs() < f32::EPSILON &&
-        (d.y() - 0.).abs() < f32::EPSILON &&
-        (d.z() - 0.).abs() < f32::EPSILON {
+        if (d.x - 0.).abs() < f32::EPSILON &&
+        (d.y - 0.).abs() < f32::EPSILON &&
+        (d.z - 0.).abs() < f32::EPSILON {
             d = Vec3::splat(1.);
         }
         for d in &[d, d.neg()] {
@@ -261,9 +261,9 @@ impl GJK {
         for _ in 0..self.max_iterations {
             let d = self.simplex_processor
                 .get_closest_point_to_origin(&mut simplex);
-            if (d.x() - 0.).abs() < f32::EPSILON &&
-            (d.y() - 0.).abs() < f32::EPSILON &&
-            (d.z() - 0.).abs() < f32::EPSILON {
+            if (d.x - 0.).abs() < f32::EPSILON &&
+            (d.y - 0.).abs() < f32::EPSILON &&
+            (d.z - 0.).abs() < f32::EPSILON {
                 return None;
             }
             let d = d.neg();

@@ -99,7 +99,7 @@ impl ComputeBound<crate::volume::Sphere> for Primitive3 {
     fn compute_bound(&self) -> crate::volume::Sphere {
         match *self {
             Primitive3::Particle(_) => crate::volume::Sphere {
-                center: Vec3::zero(),
+                center: Vec3::ZERO,
                 radius: 0.,
             },
             Primitive3::Quad(ref quad) => quad.compute_bound(),
@@ -116,7 +116,7 @@ impl ComputeBound<crate::volume::Sphere> for Primitive3 {
 impl Primitive for Primitive3 {
     fn support_point(&self, direction: &Vec3, transform: &Mat4) -> Vec3 {
         match *self {
-            Primitive3::Particle(_) => transform.transform_point3(Vec3::zero()),
+            Primitive3::Particle(_) => transform.transform_point3(Vec3::ZERO),
             Primitive3::Quad(ref quad) => quad.support_point(direction, transform),
             Primitive3::Sphere(ref sphere) => sphere.support_point(direction, transform),
             Primitive3::Cuboid(ref cuboid) => cuboid.support_point(direction, transform),

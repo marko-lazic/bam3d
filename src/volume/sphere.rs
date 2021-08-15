@@ -25,7 +25,7 @@ impl Bound for Sphere {
     }
 
     fn with_margin(&self, add: Vec3) -> Self {
-        let max = add.x().max(add.y()).max(add.z());
+        let max = add.x.max(add.y).max(add.z);
         Sphere {
             center: self.center,
             radius: self.radius + max,
@@ -41,7 +41,7 @@ impl Bound for Sphere {
 
     fn empty() -> Self {
         Self {
-            center: Vec3::zero(),
+            center: Vec3::ZERO,
             radius: 0.,
         }
     }
